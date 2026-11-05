@@ -1,0 +1,28 @@
+# Videolar va oraliq fayllar (papkalar .gitkeep bilan saqlanadi)
+input/*
+!input/.gitkeep
+!input/reference/
+input/reference/*
+!input/reference/.gitkeep
+output/*
+!output/.gitkeep
+work/*
+!work/.gitkeep
+
+# Musiqa fayllari (Mixkit litsenziyasi qayta tarqatishga ruxsat bermaydi)
+assets/music/*
+!assets/music/LITSENZIYA.txt
+
+# Foydalanuvchining shaxsiy SFX'lari
+assets/sfx/custom/
+
+# Python / Node
+__pycache__/
+*.pyc
+.venv/
+node_modules/
+
+# Tizim fayllari
+Thumbs.db
+desktop.ini
+.DS_Store

@@ -1,0 +1,477 @@
+{
+  "hormozi": {
+    "description": "Tez, energetik ekspert Reels: qisqa kadrlar, har kesimda zoom, kalit so'zlarda pop, raqamlar animatsiyada",
+    "best_for": [
+      "ekspert",
+      "biznes maslahat",
+      "shaxsiy brend",
+      "motivatsion maslahat"
+    ],
+    "subtitles": {
+      "style": "pro"
+    },
+    "grade": "punchy",
+    "theme": {
+      "accent": "#FFD400",
+      "dark": "#101010"
+    },
+    "pacing": {
+      "max_shot_s": 2.6,
+      "zoom_pattern": [
+        1.0,
+        1.18,
+        1.0,
+        1.28
+      ]
+    },
+    "progress_bar": true,
+    "sfx": {
+      "on_cut": "synth/whoosh_short",
+      "on_keyword": "synth/pop",
+      "on_number": "synth/kaching",
+      "on_hook": "synth/boom",
+      "every_s": 2.5,
+      "volume": 0.5
+    },
+    "music": {
+      "mood": "energetik, hip-hop / trap bit",
+      "volume": 0.28,
+      "sync": true
+    },
+    "guide": "Hook: birinchi 2 s da kinetik matn (effect drop yoki pop, y 0.15). Har bir raqam - counter bloki. Har 3-4 s da bitta emoji yoki stiker. Kalit so'z (pul, foyda, xato, sir) - pop SFX. Oxirida CTA bloki. Dublar va pauzalarni ayamasdan kes."
+  },
+  "ekspert-premium": {
+    "description": "Sokin, qimmat ko'rinish: uzunroq kadrlar, kinematografik rang, minimal effektlar, ism-familiya plashkasi",
+    "best_for": [
+      "shifokor",
+      "huquqshunos",
+      "moliyachi",
+      "premium xizmat",
+      "intervyu"
+    ],
+    "subtitles": {
+      "style": "clean-box"
+    },
+    "grade": "cinematic",
+    "theme": {
+      "accent": "#E8C27A",
+      "dark": "#0E0E0E",
+      "radius": 12
+    },
+    "pacing": {
+      "max_shot_s": 4.5,
+      "zoom_pattern": [
+        1.0,
+        1.08
+      ]
+    },
+    "progress_bar": false,
+    "sfx": {
+      "on_cut": "synth/whoosh_deep",
+      "on_keyword": "synth/ding_soft",
+      "every_s": 6,
+      "volume": 0.35
+    },
+    "music": {
+      "mood": "sokin pianino / ambient",
+      "volume": 0.2,
+      "sync": false
+    },
+    "guide": "Boshida lower_third: ism va lavozim (2-4 s). Emoji ishlatma. Animatsiyalar kam va sekin (effect blur yoki slide). Raqamlarni counter bilan, lekin kichikroq (size 120). SFX juda kam."
+  },
+  "sotuv-reklama": {
+    "description": "Mahsulot/xizmat reklamasi: og'riq -> yechim -> taklif -> CTA, narx va raqamlar katta, pul ovozlari",
+    "best_for": [
+      "reklama",
+      "target",
+      "aksiya",
+      "ko'chmas mulk",
+      "kurs sotuvi"
+    ],
+    "subtitles": {
+      "style": "pro-green"
+    },
+    "grade": "punchy",
+    "theme": {
+      "accent": "#3CFF6E",
+      "dark": "#0B0B0B"
+    },
+    "pacing": {
+      "max_shot_s": 3.0,
+      "zoom_pattern": [
+        1.0,
+        1.15
+      ]
+    },
+    "progress_bar": true,
+    "sfx": {
+      "on_cut": "synth/swipe",
+      "on_keyword": "synth/pop",
+      "on_number": "synth/kaching",
+      "on_cta": "synth/success",
+      "every_s": 3,
+      "volume": 0.5
+    },
+    "music": {
+      "mood": "pozitiv korporativ / pop",
+      "volume": 0.28,
+      "sync": true
+    },
+    "guide": "Hook - og'riqli savol kinetik matnda. Narx, foiz, summa - counter. Afzalliklar - list bloki (har band ding bilan). Taklif - sticker ('CHEGIRMA', 'YANGI'). Oxirgi 2-3 s - CTA (Direktga yozing / Havolani bosing) + success SFX."
+  },
+  "kino": {
+    "description": "Kinematografik hikoya: Bebas Neue, teal-orange rang, sekin ritm, riser -> boom bilan kulminatsiya",
+    "best_for": [
+      "hikoya",
+      "brend hikoyasi",
+      "vlog",
+      "sayohat",
+      "motivatsion hikoya"
+    ],
+    "subtitles": {
+      "style": "bebas"
+    },
+    "grade": "cinematic",
+    "theme": {
+      "accent": "#FF5A36",
+      "dark": "#0A0A0A",
+      "font": "Bebas Neue",
+      "weight": 400
+    },
+    "pacing": {
+      "max_shot_s": 3.8,
+      "zoom_pattern": [
+        1.0,
+        1.1
+      ]
+    },
+    "progress_bar": false,
+    "sfx": {
+      "on_cut": "synth/whoosh_deep",
+      "before_reveal": "synth/rise",
+      "on_reveal": "synth/sub_drop",
+      "every_s": 5,
+      "volume": 0.45
+    },
+    "music": {
+      "mood": "epik / kinematografik",
+      "volume": 0.32,
+      "sync": true
+    },
+    "guide": "Matnlar Bebas Neue'da, effect blur. Kulminatsiya gapidan 1.5 s oldin rise, gapning o'zida sub_drop + flash. Emoji yo'q. Kesimlarni musiqa bitiga moslang (music.sync)."
+  },
+  "podcast": {
+    "description": "Podcast/intervyu parchasi: toza subtitr, sokin rang, effektlar yo'q, spiker almashganda kesim",
+    "best_for": [
+      "podcast",
+      "intervyu",
+      "suhbat",
+      "uzun videodan parcha"
+    ],
+    "subtitles": {
+      "style": "clean-box"
+    },
+    "grade": "clean",
+    "theme": {
+      "accent": "#7AD7FF",
+      "dark": "#111111",
+      "radius": 14
+    },
+    "pacing": {
+      "max_shot_s": 6.0,
+      "zoom_pattern": [
+        1.0,
+        1.12
+      ]
+    },
+    "progress_bar": true,
+    "sfx": {
+      "every_s": 0,
+      "volume": 0.0
+    },
+    "music": {
+      "mood": "musiqasiz yoki juda past lo-fi",
+      "volume": 0.15,
+      "sync": false
+    },
+    "guide": "Eng kuchli fikrni (bahsli gap, raqam, maslahat) topib, uni hook qilib boshiga qo'y. Boshida lower_third: mehmon ismi. SFX qo'yma. Zoom faqat urg'uli gapda."
+  },
+  "yangiliklar": {
+    "description": "Yangilik/xabar formati: aniq va tez, sarlavha plashkasi, sovuq rang, 'YANGILIK' stikeri",
+    "best_for": [
+      "yangilik",
+      "e'lon",
+      "sharh",
+      "trend tahlili"
+    ],
+    "subtitles": {
+      "style": "clean-box",
+      "position": 0.74
+    },
+    "grade": "cool",
+    "theme": {
+      "accent": "#FF3B30",
+      "dark": "#101418",
+      "radius": 10
+    },
+    "pacing": {
+      "max_shot_s": 3.5,
+      "zoom_pattern": [
+        1.0,
+        1.12
+      ]
+    },
+    "progress_bar": true,
+    "sfx": {
+      "on_cut": "synth/swipe",
+      "on_keyword": "synth/notification",
+      "every_s": 5,
+      "volume": 0.4
+    },
+    "music": {
+      "mood": "yangiliklar fon ritmi",
+      "volume": 0.2,
+      "sync": false
+    },
+    "guide": "Boshida sticker 'YANGILIK' (qizil) + kinetik sarlavha (effect slide). Asosiy fakt va raqamlar - lower_third yoki counter. Emoji kam. Ohang jiddiy."
+  },
+  "talim": {
+    "description": "Tushuntirish/ta'lim: qadam-baqadam ro'yxat, strelkalar, karaoke subtitr, tushunarli ritm",
+    "best_for": [
+      "dars",
+      "qo'llanma",
+      "lifehack",
+      "IT",
+      "til o'rganish"
+    ],
+    "subtitles": {
+      "style": "karaoke"
+    },
+    "grade": "clean",
+    "theme": {
+      "accent": "#3CFF6E",
+      "dark": "#111111"
+    },
+    "pacing": {
+      "max_shot_s": 3.5,
+      "zoom_pattern": [
+        1.0,
+        1.15
+      ]
+    },
+    "progress_bar": true,
+    "sfx": {
+      "on_cut": "synth/whoosh_short",
+      "on_keyword": "synth/ding",
+      "every_s": 4,
+      "volume": 0.4
+    },
+    "music": {
+      "mood": "yengil lo-fi",
+      "volume": 0.2,
+      "sync": false
+    },
+    "guide": "'3 ta usul', '5 ta xato' kabi gaplarda list bloki: har band aytilganda chiqadi (times = so'z vaqti) va ding. Muhim joyga arrow. Atamalarni sticker bilan ajrat."
+  },
+  "motivatsiya": {
+    "description": "Hissiy motivatsiya: qorong'i rang, Bebas Neue, yurak urishi va riser, kuchli zarb bilan yakun",
+    "best_for": [
+      "motivatsiya",
+      "sport",
+      "shaxsiy rivojlanish",
+      "hikmatli gap"
+    ],
+    "subtitles": {
+      "style": "bebas",
+      "highlight": "#FFFFFF",
+      "color": "#BBBBBB"
+    },
+    "grade": "moody",
+    "theme": {
+      "accent": "#FFFFFF",
+      "dark": "#000000",
+      "font": "Bebas Neue",
+      "weight": 400
+    },
+    "pacing": {
+      "max_shot_s": 3.2,
+      "zoom_pattern": [
+        1.0,
+        1.12,
+        1.24
+      ]
+    },
+    "progress_bar": false,
+    "sfx": {
+      "intro": "synth/heartbeat",
+      "before_reveal": "synth/rise",
+      "on_reveal": "synth/boom",
+      "every_s": 6,
+      "volume": 0.5
+    },
+    "music": {
+      "mood": "epik orkestr / dramatik pianino",
+      "volume": 0.35,
+      "sync": true
+    },
+    "guide": "Har bir gapda zoom bosqichma-bosqich oshadi (1.0 -> 1.12 -> 1.24). Asosiy jumla - kinetik matn effect blur, katta (size 130). Oxirgi jumlada boom + flash."
+  },
+  "kulgili": {
+    "description": "Energetik/kulgili kontent: juda tez kesimlar, qizil ajratish, emoji ko'p, glitch va tape-stop",
+    "best_for": [
+      "yumor",
+      "sketch",
+      "trend",
+      "challenge",
+      "yoshlar auditoriyasi"
+    ],
+    "subtitles": {
+      "style": "bold-red"
+    },
+    "grade": "punchy",
+    "theme": {
+      "accent": "#FF3B30",
+      "dark": "#111111"
+    },
+    "pacing": {
+      "max_shot_s": 1.8,
+      "zoom_pattern": [
+        1.0,
+        1.25,
+        1.0,
+        1.35
+      ]
+    },
+    "progress_bar": false,
+    "sfx": {
+      "on_cut": "synth/pop_high",
+      "on_keyword": "synth/bubble",
+      "on_fail": "synth/tape_stop",
+      "glitch": "synth/glitch",
+      "every_s": 1.8,
+      "volume": 0.55
+    },
+    "music": {
+      "mood": "o'ynoqi / trend bit",
+      "volume": 0.3,
+      "sync": true
+    },
+    "guide": "Har 2 s da emoji (😂🤯🔥👀). Kutilmagan joyda tape_stop yoki glitch. Matnlar effect pop yoki drop. Pauza qoldirma."
+  },
+  "premium-mahsulot": {
+    "description": "Premium mahsulot/ko'chmas mulk: iliq rang, sokin ritm, narx va afzalliklar nafis animatsiyada",
+    "best_for": [
+      "ko'chmas mulk",
+      "avtomobil",
+      "mebel",
+      "restoran",
+      "go'zallik saloni"
+    ],
+    "subtitles": {
+      "style": "pro",
+      "highlight": "#E8C27A"
+    },
+    "grade": "warm",
+    "theme": {
+      "accent": "#E8C27A",
+      "dark": "#14110C"
+    },
+    "pacing": {
+      "max_shot_s": 3.5,
+      "zoom_pattern": [
+        1.0,
+        1.12
+      ]
+    },
+    "progress_bar": false,
+    "sfx": {
+      "on_cut": "synth/whoosh",
+      "on_keyword": "synth/ding_soft",
+      "on_number": "synth/coin",
+      "every_s": 4,
+      "volume": 0.4
+    },
+    "music": {
+      "mood": "zamonaviy lounge / deep house",
+      "volume": 0.25,
+      "sync": true
+    },
+    "guide": "Narx/maydon/foiz - counter (size 140). Afzalliklar - list (bullet '◆'). Boshida sticker yoki lower_third bilan brend nomi. Oxirida CTA."
+  },
+  "lifestyle": {
+    "description": "Lifestyle/retsept/vlog: iliq, yumshoq, minimal subtitr, yengil musiqa bitga mos",
+    "best_for": [
+      "retsept",
+      "vlog",
+      "go'zallik",
+      "moda",
+      "kundalik hayot"
+    ],
+    "subtitles": {
+      "style": "minimal"
+    },
+    "grade": "warm",
+    "theme": {
+      "accent": "#FFB4A2",
+      "dark": "#2B2118",
+      "radius": 40
+    },
+    "pacing": {
+      "max_shot_s": 2.8,
+      "zoom_pattern": [
+        1.0,
+        1.1
+      ]
+    },
+    "progress_bar": false,
+    "sfx": {
+      "on_cut": "synth/swipe",
+      "on_keyword": "synth/bubble",
+      "every_s": 4,
+      "volume": 0.35
+    },
+    "music": {
+      "mood": "yengil akustik / pop",
+      "volume": 0.32,
+      "sync": true
+    },
+    "guide": "Kesimlar musiqa bitiga (music.sync). Ingredient/qadamlar - list bloki. Emoji kam va mavzuga mos (🍳✨🌿). Matnlar effect slide."
+  },
+  "tiktok-trend": {
+    "description": "TikTok trend: pop subtitr, keskin glitch o'tishlar, flash, juda qisqa kadrlar",
+    "best_for": [
+      "trend",
+      "tez faktlar",
+      "top-5",
+      "qiziqarli faktlar"
+    ],
+    "subtitles": {
+      "style": "pop"
+    },
+    "grade": "punchy",
+    "theme": {
+      "accent": "#00F0FF",
+      "dark": "#0A0A0A"
+    },
+    "pacing": {
+      "max_shot_s": 2.0,
+      "zoom_pattern": [
+        1.0,
+        1.2
+      ]
+    },
+    "progress_bar": true,
+    "sfx": {
+      "on_cut": "synth/glitch",
+      "on_keyword": "synth/pop",
+      "every_s": 2,
+      "volume": 0.5
+    },
+    "music": {
+      "mood": "trend fonk / phonk",
+      "volume": 0.32,
+      "sync": true
+    },
+    "guide": "Har bo'lim boshida flash (0.2 s) va glitch SFX. Raqamli faktlar - counter. 'TOP-5' formatida har band sticker bilan raqamlanadi."
+  }
+}

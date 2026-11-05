@@ -1,0 +1,56 @@
+{
+  "pop": {
+    "description": "Reels uslubi: katta qalin harflar, gapirilayotgan so'z sariq va 'sakraydi'",
+    "font": "Arial Black", "size": 84, "color": "#FFFFFF", "highlight": "#FFE600",
+    "outline_color": "#000000", "outline": 6, "shadow": 2, "box": false,
+    "uppercase": true, "max_words": 3, "position": 0.70, "pop": true
+  },
+  "karaoke": {
+    "description": "Har bir so'z yashil rangda yonadi, matn qora fon ustida",
+    "font": "Arial Black", "size": 72, "color": "#FFFFFF", "highlight": "#3CFF6E",
+    "outline_color": "#000000", "outline": 14, "shadow": 0, "box": true,
+    "uppercase": false, "max_words": 4, "position": 0.72, "pop": false
+  },
+  "minimal": {
+    "description": "Oddiy, toza subtitr: oq matn, yupqa kontur, ajratib ko'rsatish yo'q",
+    "font": "Arial", "size": 58, "color": "#FFFFFF", "highlight": null,
+    "outline_color": "#000000", "outline": 3, "shadow": 1, "box": false,
+    "uppercase": false, "max_words": 6, "position": 0.80, "pop": false
+  },
+  "bold-red": {
+    "description": "Ehtiyotkor/sotuvchi uslub: oq matn, faol so'z qizil, katta",
+    "font": "Impact", "size": 96, "color": "#FFFFFF", "highlight": "#FF3B30",
+    "outline_color": "#000000", "outline": 7, "shadow": 3, "box": false,
+    "uppercase": true, "max_words": 2, "position": 0.62, "pop": true
+  },
+  "pro": {
+    "description": "Hormozi uslubi: Montserrat Black, katta, faol so'z sariq va sakraydi, qalin kontur",
+    "font": "Montserrat Black", "size": 92, "color": "#FFFFFF", "highlight": "#FFD400",
+    "outline_color": "#000000", "outline": 8, "shadow": 3, "box": false,
+    "uppercase": true, "max_words": 3, "position": 0.68, "pop": true
+  },
+  "pro-green": {
+    "description": "Pro uslub, faol so'z yashil (pul, biznes, o'sish mavzulari)",
+    "font": "Montserrat Black", "size": 92, "color": "#FFFFFF", "highlight": "#3CFF6E",
+    "outline_color": "#000000", "outline": 8, "shadow": 3, "box": false,
+    "uppercase": true, "max_words": 3, "position": 0.68, "pop": true
+  },
+  "bebas": {
+    "description": "Bebas Neue: baland ingichka harflar, kinematografik, 2 so'zdan",
+    "font": "Bebas Neue", "size": 130, "color": "#FFFFFF", "highlight": "#FF5A36",
+    "outline_color": "#000000", "outline": 6, "shadow": 2, "box": false,
+    "uppercase": true, "max_words": 2, "position": 0.66, "pop": true
+  },
+  "clean-box": {
+    "description": "Toza, korporativ: Montserrat ExtraBold, qora yarim shaffof fon, ajratishsiz",
+    "font": "Montserrat ExtraBold", "size": 60, "color": "#FFFFFF", "highlight": null,
+    "outline_color": "#000000", "outline": 16, "shadow": 0, "box": true,
+    "uppercase": false, "max_words": 5, "position": 0.78, "pop": false
+  },
+  "_title": {
+    "description": "Video boshidagi sarlavha (hook) matni uchun",
+    "font": "Arial Black", "size": 92, "color": "#FFFFFF", "highlight": "#FFE600",
+    "outline_color": "#000000", "outline": 7, "shadow": 3, "box": false,
+    "uppercase": true, "position": 0.18
+  }
+}

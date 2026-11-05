@@ -1,0 +1,20 @@
+{
+  "description": "Podkast klip uslubi (referens: 'Nosir montaj referensi', B formula): bitta doimiy qora sarlavha, punch-in kesimlar, iliq yumshoq rang, oxirida profil kartochka",
+  "best_for": ["podkast parcha", "intervyu", "shaxsiy e'tirof", "ekspert gapi", "gapirayotgan bosh"],
+  "source": "Downloads/Nosir montaj referensi.md - 76 reels tahlili, top-5 dan 4 tasi shu format",
+  "subtitles": null,
+  "grade": "soft-warm",
+  "theme": {"accent": "#FF8A00", "dark": "#000000", "font": "Montserrat", "radius": 0},
+  "pacing": {"max_shot_s": 4.0, "zoom_pattern": [1.0, 1.15]},
+  "progress_bar": false,
+  "sfx": {"on_final_card": "synth/whoosh_short", "every_s": 0, "volume": 0.3},
+  "music": {"mood": "juda past fon yoki musiqasiz", "volume": 0.15, "sync": true},
+  "recipe": {
+    "title": {"type": "text", "effect": "none", "style": "plain", "bg": "#000000", "radius": 0, "padding": ".32em .55em",
+              "weight": 800, "size": 64, "y": 0.66, "color": "#FFFFFF",
+              "note": "start 0, end = profil kartochka boshlanishi; 2 qator; raqam yoki shaxsiy e'tirof"},
+    "final": {"type": "profile_card", "duration_s": 1.6, "y": 0.5, "button": "Follow",
+              "note": "avatar: reframe.py --avatar bilan videodan; name/handle foydalanuvchidan"}
+  },
+  "guide": "B formula (podkast klip). Hook: 0.0 s dan gap, intro/logo/salom yo'q, gapning o'rtasidan boshlash mumkin. Butun kuch bitta doimiy sarlavhada: qora to'rtburchak, oq qalin sans, 2 qator, ko'krak ustida (y ~0.66), boshidan oxirigacha o'zgarmaydi; matni - raqam yoki shaxsiy e'tirof ('$30,000 qarz', '10-15 pachka pul...'). So'zma-so'z subtitr QO'YILMAYDI (yo doimiy sarlavha, yo ingichka subtitr - ikkalasi emas). Har 3-6 s da vizual o'zgarish: plan almashishi yoki 110-120% punch-in; 10+ s bir xil kadr bo'lmasin. Bitta urg'u rangi (to'q sariq), qolgani neytral; emoji, sakraydigan rangli subtitr, 3+ rang - taqiq. Rang: iliq, past kontrast, biroz to'yinmagan, teri tabiiy. Final: oxirgi 1-2 s yuz ustida oq profil kartochka (avatar + Follow) yoki 'To'liq suhbat ... YouTube kanalida'. Uzun outro va 'obuna bo'ling' degan gap yo'q. Pauza va 'ee/mmm' kesiladi. Uzunlik 40-70 s (podkast klip 150 s gacha). Boshqa formulalar (referensda): A - selfi + to'q sariq ro'yxat kartalari (01-05), C - split-screen + doodle, D - letterbox vlog; formulalarni aralashtirma."
+}
