@@ -3,7 +3,7 @@
 #
 # Hamma vositalar %USERPROFILE%\.ai-montaj ga o'rnatiladi (tizimga emas, admin huquqi kerak emas):
 #   venv\     Python muhiti (Whisper, librosa, yt-dlp, OpenCV)
-#   models\   Whisper large-v3 (~3 GB)
+#   models\   Whisper large-v3 (~3 GB) + MediaPipe odam niqobi (16 MB)
 #   ffmpeg\   to'liq FFmpeg + ffprobe
 #   node\     portativ Node.js 22
 #   hf\       HyperFrames (animatsiya) + GSAP
@@ -44,6 +44,13 @@ foreach ($f in "config.json", "preprocessor_config.json", "tokenizer.json", "voc
 if (-not (Test-Path "$model\model.bin")) {
     Write-Host "Whisper modeli yuklanmoqda (~3 GB)..."
     Get-Verified "$hfbase/model.bin" "$model\model.bin" "69f74147e3334731bc3a76048724833325d2ec74642fb52620eda87352e3d4f1"
+}
+# MediaPipe odam niqobi ("layer": "behind" - matn odam orqasida)
+$mp = "$base\models\mediapipe"
+New-Item -ItemType Directory -Force $mp | Out-Null
+if (-not (Test-Path "$mp\selfie_multiclass_256x256.tflite")) {
+    Get-Verified "https://storage.googleapis.com/mediapipe-models/image_segmenter/selfie_multiclass_256x256/float32/1/selfie_multiclass_256x256.tflite" `
+        "$mp\selfie_multiclass_256x256.tflite" "c6748b1253a99067ef71f7e26ca71096cd449baefa8f101900ea23016507e0e0"
 }
 
 # 3. FFmpeg (BtbN, GitHub)

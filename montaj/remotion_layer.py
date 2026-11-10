@@ -1,6 +1,8 @@
 """Remotion qatlami: edit.json dagi {"type": "remotion"} animatsiya bloklarini shaffof klip (ProRes 4444) qilib render qiladi.
 
 Blok: {"type": "remotion", "comp": "StepCard", "start": 15.2, "end": 19.4, "props": {...}}
+     "layer": "behind" - blok odam ORQASIGA qo'yiladi (render.py MediaPipe niqobi bilan odamni ustiga chiqaradi)
+props ichidagi loyiha fayllari (masalan "src": "input/broll/bozor.jpg") avtomatik public/media ga ko'chiriladi.
 Kompozitsiyalar loyihaning remotion/ papkasida (Root.jsx da ro'yxat). Render paytida ular
 %USERPROFILE%\\.ai-montaj\\remotion\\src ga ko'chiriladi (node_modules o'sha yerda). Natija keshlanadi:
 props va kompozitsiya kodi o'zgarmasa, qayta render qilinmaydi.
@@ -28,8 +30,29 @@ SRC = ROOT / "remotion"
 FONTS = ROOT / "assets" / "fonts"
 
 
+MEDIA_EXT = {".png", ".jpg", ".jpeg", ".webp", ".gif", ".mp4", ".mov", ".webm", ".svg"}
+
+
 def blocks_of(edit):
     return [b for b in (edit.get("animations") or []) if b.get("type") == "remotion"]
+
+
+def _media(value):
+    """props ichidagi loyiha fayl yo'llarini public/media/<xesh>_<nom> ga ko'chirib, "media/..." bilan almashtiradi."""
+    if isinstance(value, dict):
+        return {k: _media(v) for k, v in value.items()}
+    if isinstance(value, list):
+        return [_media(v) for v in value]
+    if isinstance(value, str) and Path(value).suffix.lower() in MEDIA_EXT and not value.startswith(("media/", "http")):
+        f = Path(value) if Path(value).is_absolute() else ROOT / value
+        if f.is_file():
+            h = hashlib.sha1(f.read_bytes()).hexdigest()[:10]
+            dst = RDIR / "public" / "media" / f"{h}_{f.name}"
+            if not dst.exists():
+                dst.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copy2(f, dst)
+            return f"media/{dst.name}"
+    return value
 
 
 def _sync():
@@ -59,10 +82,16 @@ def _run(cli, args):
                           capture_output=True, text=True, encoding="utf-8", errors="replace")
 
 
-def build(edit_path):
-    """Har bir remotion bloki uchun [(klip.mov, start, end)] qaytaradi."""
+def build(edit_path, extra=None, layer=None):
+    """Har bir remotion bloki uchun [(klip.mov, start, end)] qaytaradi.
+    extra - render.py qo'shadigan bloklar (masalan StorySubs subtitrlari);
+    layer - None: hammasi, "front": odam orqasiga qo'yilmaydiganlar, "behind": faqat odam orqasidagilar."""
     edit = load_json(edit_path)
-    blocks = blocks_of(edit)
+    blocks = blocks_of(edit) + list(extra or [])
+    if layer == "front":
+        blocks = [b for b in blocks if b.get("layer") != "behind"]
+    elif layer == "behind":
+        blocks = [b for b in blocks if b.get("layer") == "behind"]
     if not blocks:
         return []
     tl = load_json(edit_files(edit_path)["timeline_json"])
@@ -78,7 +107,7 @@ def build(edit_path):
         end = float(b.get("end", start + 3))
         end = min(end, total)
         props = {"theme": {k: v for k, v in theme.items() if k in ("accent", "text", "dark")},
-                 **(b.get("props") or {}), "duration": round(end - start, 3), "fps": fps, "width": W, "height": H}
+                 **_media(b.get("props") or {}), "duration": round(end - start, 3), "fps": fps, "width": W, "height": H}
         key = hashlib.sha1((code + b["comp"] + json.dumps(props, sort_keys=True, ensure_ascii=False)).encode()).hexdigest()[:16]
         mov = out_dir / f"{b['comp']}-{key}.mov"
         if not mov.exists():
@@ -99,7 +128,7 @@ def build(edit_path):
 def still(comp, at, props, out):
     """Bitta kadr (PNG, shaffof) - kompozitsiyani tez ko'rish uchun."""
     cli, _ = _sync()
-    props = {"duration": 3, "fps": 30, "width": 1080, "height": 1920, **props}
+    props = {"duration": 3, "fps": 30, "width": 1080, "height": 1920, **_media(props)}
     pfile = RDIR / "out" / "still.props.json"
     pfile.parent.mkdir(exist_ok=True)
     pfile.write_text(json.dumps(props, ensure_ascii=False), encoding="utf-8")

@@ -6,13 +6,16 @@ const FACES = [
   ['Montserrat', 'Montserrat-ExtraBold.ttf', '800'],
   ['Montserrat', 'Montserrat-SemiBold.ttf', '600'],
   ['Bebas Neue', 'BebasNeue-Regular.ttf', '400'],
+  ['Instrument Serif', 'InstrumentSerif-Regular.ttf', '400', 'normal'],
+  ['Instrument Serif', 'InstrumentSerif-Italic.ttf', '400', 'italic'],
 ];
 
 if (typeof document !== 'undefined' && !window.__montajFonts) {
   window.__montajFonts = true;
   const handle = delayRender('shriftlar');
-  Promise.all(FACES.map(([family, file, weight]) =>
-    new FontFace(family, `url(${staticFile('fonts/' + file)})`, {weight}).load().then((f) => document.fonts.add(f))))
+  Promise.all(FACES.map(([family, file, weight, style = 'normal']) =>
+    new FontFace(family, `url(${staticFile('fonts/' + file)})`, {weight, style}).load()
+      .then((f) => document.fonts.add(f))))
     .catch(() => {})
     .then(() => continueRender(handle));
 }

@@ -34,6 +34,9 @@ GRADES = {
     "moody": "eq=contrast=1.15:saturation=0.8:brightness=-0.03,vignette=angle=PI/4",
     "soft-warm": "colorbalance=rs=0.04:bs=-0.04:rm=0.03:bm=-0.03,eq=contrast=0.93:saturation=0.9:brightness=0.015:gamma=1.03",
     "bw": "hue=s=0,eq=contrast=1.18",
+    # Azizon (hikoya): iliq kino tusi - soyalar iliq, kontrast yumshoq, teri tabiiy, chetlari biroz qoraygan
+    "story-warm": "colorbalance=rs=0.05:gs=0.01:bs=-0.05:rm=0.04:bm=-0.05:rh=0.02:bh=-0.04,"
+                  "eq=contrast=1.05:saturation=1.08:brightness=-0.01:gamma=0.98,vignette=angle=PI/6",
 }
 SFX_TARGET_PEAK_DB = -6.0
 
@@ -182,6 +185,73 @@ def build_ass(words, sub_style, title, title_style, W, H, total):
     return "\n".join(head + body) + "\n", len(events)
 
 
+def _norm(w):
+    w = w.lower().replace("ʻ", "'").replace("ʼ", "'").replace("‘", "'").replace("’", "'").replace("`", "'")
+    return re.sub(r"[^\w']", "", w)
+
+
+def story_subs_block(words, st, edit, total):
+    """"Hikoya" subtitrlari (Remotion StorySubs) uchun blok: so'zlar bo'laklarga, bo'lak 1-2 qatorga bo'linadi.
+    st: max_words, emphasis (kalit so'zlar ro'yxati yoki "auto"), underline (so'zlar ro'yxati), y, size, color.
+    WallCard bloklari vaqtida subtitr rangi to'q bo'ladi ("subs": {...} bilan o'zgartiriladi, false - yashiriladi)."""
+    emph_cfg = st.get("emphasis", "auto")
+    emph_set = {_norm(x) for x in emph_cfg} if isinstance(emph_cfg, list) else set()
+    ul_set = {_norm(x) for x in (st.get("underline") or [])}
+    zones = []
+    for b in edit.get("animations") or []:
+        if b.get("type") == "remotion" and (b.get("comp") == "WallCard" or "subs" in b):
+            z = b.get("subs", {"color": "#241D18", "shadow": False} if b.get("comp") == "WallCard" else None)
+            if z is not None:
+                zones.append((float(b["start"]), float(b.get("end", b["start"] + 3)), z))
+    chunks = []
+    groups = chunk_words(words, st.get("max_words", 6))
+    for ci, ch in enumerate(groups):
+        nxt = groups[ci + 1][0]["start"] if ci + 1 < len(groups) else total
+        end = nxt - 0.02 if nxt - ch[-1]["end"] < 0.45 else min(ch[-1]["end"] + 0.35, nxt - 0.02)
+        ws = [{"w": clean(w["word"], False), "s": round(w["start"], 3)} for w in ch]
+        ws = [w for w in ws if w["w"]]
+        if not ws:
+            continue
+        # kalit so'z: ro'yxatdagilar, "auto" bo'lsa - bo'lakdagi eng uzun so'z (5+ harf)
+        hit = False
+        for w in ws:
+            if _norm(w["w"]) in emph_set:
+                w["emph"] = hit = True
+            if _norm(w["w"]) in ul_set:
+                w["ul"] = True
+        if emph_cfg in ("auto", True) and not hit:
+            best = max(ws, key=lambda w: len(_norm(w["w"])))
+            if len(_norm(best["w"])) >= 5:
+                best["emph"] = True
+        # 4+ so'z - 2 qator; vergul bo'lsa o'sha yerdan bo'linadi
+        if len(ws) >= 4:
+            k = next((i + 1 for i, w in enumerate(ws[:-1]) if w["w"].endswith(",") and 1 <= i + 1 < len(ws) - 0),
+                     (len(ws) + 1) // 2)
+            lines = [ws[:k], ws[k:]]
+        else:
+            lines = [ws]
+        c = {"start": ws[0]["s"], "end": round(end, 3), "lines": lines}
+        z = next((z for a, b, z in zones if a - 0.05 <= c["start"] < b), None)
+        if z is False:
+            continue
+        hide_at = min((a for a, b, zz in zones if zz is False and c["start"] < a < c["end"]), default=None)
+        if hide_at is not None:
+            c["end"] = round(hide_at - 0.15, 3)    # fade_out tugaguncha sahna almashadi
+        if z:
+            c.update({k: v for k, v in z.items() if k in ("color", "y", "size", "shadow")})
+        chunks.append(c)
+    style = {k: st[k] for k in ("y", "size", "color", "emph_scale", "underline_color", "italic", "weight",
+                                "emph_color", "emph_weight", "fade_out") if k in st}
+    if st.get("font") and st["font"] != "Instrument Serif":
+        style["font"] = st["font"]
+    if "position" in st:
+        style.setdefault("y", st["position"])
+    if "underline_color" in style:
+        style["underline"] = style.pop("underline_color")
+    return {"type": "remotion", "comp": st.get("comp", "StorySubs"), "start": 0.0, "end": total,
+            "props": {"chunks": chunks, "style": style}}
+
+
 # ---------- kadr ----------
 
 def frame_geometry(fmt, W, H):
@@ -239,7 +309,16 @@ def move_value(mv, dur, t):
 
 
 def frame_filter(seg, info, aspect, OW, OH, fps, n0=0, at=None):
-    """Bo'lak uchun kadr filtri: kesish + format + zoom + harakat. at berilsa - bitta kadr (eskiz) uchun."""
+    """Bo'lak uchun kadr filtri: kesish + format + zoom + harakat. at berilsa - bitta kadr (eskiz) uchun.
+    "shift_y": 0.3 - kadr 30% pastga suriladi (tepasi qora; split-screen paneli ostida yuz pastki yarmida ko'rinadi)."""
+    vf = _frame_filter(seg, info, aspect, OW, OH, fps, n0, at)
+    dy = int(OH * float(seg.get("shift_y", 0))) // 2 * 2
+    if dy > 0:
+        vf += f",pad={OW}:{OH + dy}:0:{dy}:black,crop={OW}:{OH}:0:0"
+    return vf
+
+
+def _frame_filter(seg, info, aspect, OW, OH, fps, n0=0, at=None):
     cw, ch, cx, cy = crop_box(info["width"], info["height"], aspect, float(seg.get("zoom", 1.0)),
                               float(seg.get("x", 0.5)), float(seg.get("y", 0.5)))
     vf = f"crop={cw}:{ch}:{cx}:{cy}"
@@ -415,11 +494,7 @@ def main():
         frames = animate.build(edit_path)
         if frames:
             anim_frames = animate.frame_pattern(frames)
-    # Remotion qatlami: har bir blok - alohida shaffof klip
-    import remotion_layer
-    rem_clips = remotion_layer.build(edit_path)
-
-    # subtitr
+    # subtitr: oddiy uslublar - ASS (libass); "engine": "remotion" uslublar (hikoya) - Remotion StorySubs qatlami
     styles = load_json(ROOT / "styles" / "subtitles.json")
     sub_cfg = edit.get("subtitles")
     sub_style = None
@@ -428,8 +503,26 @@ def main():
         if name not in styles:
             raise SystemExit(f"Noma'lum uslub: {name}. Mavjud: {', '.join(k for k in styles if not k.startswith('_'))}")
         sub_style = {**styles[name], **{k: v for k, v in sub_cfg.items() if k != "style"}}
+    story_blocks = []
+    if sub_style and sub_style.get("engine") == "remotion":
+        story_blocks = [story_subs_block(tl_words, sub_style, edit, total)]
+        sub_style = None
     ass, n_events = build_ass(tl_words, sub_style, edit.get("title"), styles["_title"], OW, OH, total)
     (work / F["subs"]).write_text(ass, encoding="utf-8")
+
+    # Remotion qatlami: har bir blok - alohida shaffof klip; "layer": "behind" bloklar odam orqasiga qo'yiladi
+    import remotion_layer
+    behind_clips = remotion_layer.build(edit_path, layer="behind")
+    rem_clips = remotion_layer.build(edit_path, extra=story_blocks, layer="front")
+    mattes = []
+    if behind_clips:
+        import matte
+        base, is_concat = (xfade_video, False) if xfade_video else (work / F["concat"], True)
+        for k, (mov, r_start, r_end) in enumerate(behind_clips):
+            mf = work / f"matte_{k:02d}.mkv"
+            print(f"  odam niqobi {r_start:.2f}-{r_end:.2f} s...", flush=True)
+            matte.build(base, r_start, r_end - r_start, mf, OW, OH, fps, concat=is_concat, cwd=work)
+            mattes.append((mov, r_start, r_end, mf, base, is_concat))
 
     # 2-bosqich: yig'ish
     inputs = ["-f", "concat", "-safe", "0", "-i", F["concat"]]
@@ -443,6 +536,26 @@ def main():
     if g:
         vchain.append(f"{vlabel}{g}[vg]")
         vlabel = "[vg]"
+    # odam orqasidagi bloklar: fon + blok, ustiga o'sha kadrlardan niqob bilan kesilgan odam
+    for k, (mov, r_start, r_end, mf, base, is_concat) in enumerate(mattes):
+        d = r_end - r_start
+        inputs += ["-i", mov]
+        vchain.append(f"[{idx}:v]setpts=PTS-STARTPTS+{r_start:.3f}/TB[bw{k}]")
+        vchain.append(f"{vlabel}[bw{k}]overlay=0:0:format=auto:eof_action=pass:"
+                      f"enable='between(t,{r_start:.3f},{r_end:.3f})'[bt{k}]")
+        idx += 1
+        inputs += ["-ss", f"{r_start:.3f}", "-t", f"{d:.3f}"] + (["-f", "concat", "-safe", "0"] if is_concat else []) \
+            + ["-i", base if not is_concat else F["concat"]]
+        pc = f"[{idx}:v]fps={fps},setpts=PTS-STARTPTS" + (f",{g}" if g else "") + f"[bc{k}]"
+        vchain.append(pc)
+        idx += 1
+        inputs += ["-i", mf]
+        vchain.append(f"[{idx}:v]format=gray,setpts=PTS-STARTPTS[bm{k}]")
+        vchain.append(f"[bc{k}][bm{k}]alphamerge,setpts=PTS-STARTPTS+{r_start:.3f}/TB[bp{k}]")
+        vchain.append(f"[bt{k}][bp{k}]overlay=0:0:format=auto:eof_action=pass:"
+                      f"enable='between(t,{r_start:.3f},{r_end - 1 / fps:.3f})'[bv{k}]")
+        vlabel = f"[bv{k}]"
+        idx += 1
     if anim_frames:
         pattern, start_no = anim_frames
         inputs += ["-framerate", fps, "-start_number", start_no, "-i", pattern]

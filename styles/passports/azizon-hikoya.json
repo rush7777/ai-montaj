@@ -1,0 +1,35 @@
+{
+  "description": "Brend-hikoya uslubi (referens: Azizon_reels_v2, 51.6 s, 1549 kadr kadrma-kadr tahlil): intervyu + har bir gap AI-tasvir bilan, krem devor sahnalari, ingichka serif subtitr, yumshoq dissolve, oxirida brend kartochka",
+  "best_for": ["brend hikoyasi", "mijoz bilan bo'lgan voqea", "kompaniya qadriyatlari", "ekspert intervyusi",
+               "premium xizmat/mahsulot", "ishonch va sifat haqida", "storytelling reklama"],
+  "source": "input/reference/Azizon_reels_v2.mp4 -> work/reference/azizon/frames (frames.csv, shots.json, sheet_*.png)",
+  "measured": {
+    "duration_s": 51.6, "shots": 19, "avg_shot_s": 2.7, "median_shot_s": 2.9, "max_shot_s": 7.7,
+    "transitions": {"dissolve": 14, "cut": 2, "punch": 2}, "dissolve_s": 0.25,
+    "broll_share": 0.52, "talking_head_share": 0.36, "wall_cards_share": 0.12,
+    "text_on_screen_share": 0.83, "subtitle_y": 0.66, "music": "yo'q (pauzalar -88 dB gacha jim)",
+    "loudness_lufs": -16.0, "lra": 3.0, "aroll_sat": 120, "aroll_warm": 33, "broll_warm": 45
+  },
+  "subtitles": {"style": "hikoya", "position": 0.68, "max_words": 6, "emphasis": "auto"},
+  "grade": "story-warm",
+  "theme": {"accent": "#E2B93B", "dark": "#241D18", "font": "Instrument Serif", "radius": 999},
+  "pacing": {"max_shot_s": 7.5, "zoom_pattern": [1.0, 1.25]},
+  "progress_bar": false,
+  "transition": {"type": "crossfade", "dur": 0.25},
+  "sfx": {"every_s": 0, "volume": 0.0},
+  "music": {"mood": "musiqasiz (faqat ovoz) yoki juda past pianino/ambient", "volume": 0.08, "sync": false},
+  "recipe": {
+    "hook_wall": {"type": "remotion", "comp": "WallCard", "dur_s": 3.3,
+                  "note": "krem devor + tilla ramkadagi kartina (birinchi AI-tasvir), ostida intervyuerning savoli to'q serif subtitrda; oxirida zoom_into bilan kartina ichiga kirib, o'sha tasvir Broll bo'lib davom etadi"},
+    "broll": {"type": "remotion", "comp": "Broll", "zoom": [1.0, 1.08], "fade_in": 0.25, "fade_out": 0.3,
+              "note": "har bir hikoya bosqichi (kim, qayerda, nima bo'ldi) - alohida AI-tasvir 2.5-4 s; o'tmish voqeasi - bw: true"},
+    "time_label": {"type": "remotion", "comp": "LabelBox", "note": "sariq quti, 'Bundan 4-5 yil oldin' kabi vaqt belgisi, hikoya boshlanishida, y 0.16-0.2"},
+    "big_word": {"type": "remotion", "comp": "BigWord", "layer": "behind", "size": 270, "y": 0.2,
+                 "note": "hikoyaning 1-2 eng muhim so'zi (GO'SHT, KO'CHADAN), boshning orqasida; oq (#F4EFE6) yoki qizil (#C8352B)"},
+    "mark": {"note": "WallCard mark: 'cross' (qizil X - yo'q, noto'g'ri), 'circle' (oq doira - Broll ustida, HF mark bilan)"},
+    "question_wall": {"type": "remotion", "comp": "WallCard", "note": "intervyuerning ikkinchi savoli - bo'sh devor, matn to'q serif markazda (subs y 0.45)"},
+    "final": {"type": "remotion", "comp": "WallCard", "dur_s": 1.5,
+              "note": "brend nomi (kind brand) + shior pill; subs: false; nom va shior foydalanuvchidan so'raladi"}
+  },
+  "guide": "Hikoya uslubi. Butun video bitta voqea: savol -> voqea (qachon, kim, nima bo'ldi) -> o'zimiz nima qildik -> xulosa (qadriyat) -> brend. Kadrlarning yarmidan ko'pi B-roll: spiker gapirayotgan har bir aniq narsa (odam, mashina, go'sht, do'kon) alohida kinematografik AI-tasvir bilan ko'rsatiladi, ovoz uzilmaydi. Intervyu 2 burchakdan (umumiy va yon), almashganda yumshoq crossfade. Hamma o'tishlar 0.25 s dissolve, qattiq kesim kam, flash/whoosh/emoji/progress yo'q. Subtitr: ingichka serif kursiv, oq, yumshoq soya, so'zlar gapirilganda birma-bir chiqadi, har bo'lakda bitta kalit so'z tik va kattaroq; hikoyaning 3-4 tayanch so'zi tagiga sariq chiziq. Shevada gapirilsa ham subtitr toza adabiy o'zbekchada. Devor sahnalarida subtitr to'q (#241D18). Musiqa yo'q yoki deyarli eshitilmaydi - ovoz va jimlik ishlaydi. Rang: iliq, kino tusi, B-roll'lar bir xil iliq palitrada; o'tmish - oq-qora. Oxiri: krem devorda brend nomi + shior pill, 1.5 s."
+}

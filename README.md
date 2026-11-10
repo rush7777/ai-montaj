@@ -44,8 +44,16 @@ tizimga tegmaydi, admin huquqi kerak emas, har bir fayl SHA256 bilan tekshirilad
 `hormozi`, `ekspert-premium`, `sotuv-reklama`, `kino`, `podcast`, `yangiliklar`, `talim`, `motivatsiya`,
 `kulgili`, `premium-mahsulot`, `lifestyle`, `tiktok-trend`. Ro'yxat: `montaj/passport.py --list`.
 
+**Tayyor uslub skillari** (referenslar kadrma-kadr tahlil qilingan):
+- `uslub-azizon` - brend-hikoya: intervyu + har bir gapni ko'rsatadigan AI-tasvirlar, krem devor sahnalari,
+  serif subtitr, sariq vaqt yorlig'i, odam orqasidagi katta so'z. Ayting: *"Azizon uslubida montaj qil"*.
+- `uslub-qadam-gaid` - qadamma-qadam gaid: split-screen, tepada nutq bilan birga yig'iladigan sxema.
+  Ayting: *"qadamma-qadam gaid qilib montaj qil"*.
+
 **Yangi uslub o'rgatish**: yoqtirgan blogger videolarining havolasini bering (YouTube/TikTok) yoki videolarni
 `input/reference/` ga qo'ying va ayting: *"shu uslubni o'rgan"*. Claude ularni tahlil qilib, yangi pasport yozadi.
+Chuqurroq: *"referenslarni kadrma-kadr analiz qil va skillga aylantir"* - `montaj/frames.py` har bir kadrni o'lchaydi
+(kesim, dissolve, zoom, yuz, rang, matn, ovoz), Claude barcha kadr jadvallarini ko'radi va yangi skill yozadi.
 
 ## Musiqa va SFX
 
@@ -68,5 +76,5 @@ Boshqa kompyuterda tiklash: `git clone https://github.com/rush7777/ai-montaj.git
 
 ## Litsenziyalar
 
-Kenney ovozlari - CC0. Montserrat va Bebas Neue - SIL Open Font License. HyperFrames - Apache-2.0.
+Kenney ovozlari - CC0. Montserrat, Bebas Neue va Instrument Serif - SIL Open Font License. HyperFrames va MediaPipe - Apache-2.0.
 Remotion - shaxslar va 3 kishigacha jamoalar uchun bepul; kattaroq kompaniyalar uchun pullik litsenziya (remotion.pro).

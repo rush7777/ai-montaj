@@ -27,7 +27,9 @@ Bu fayl yoki `%USERPROFILE%\.ai-montaj\{ffmpeg,node,hf,models}` yo'q bo'lsa - `p
 | `sfx_catalog.py` | 426 ta SFX'dan teg bo'yicha qidirish |
 | `beats.py` | musiqa tempi va bitlari |
 | `review.py` | kadrlar jadvali va `--score` - 0-100 ball |
-| `reference.py` | namuna videodan uslubni o'rganish |
+| `reference.py` | namuna videodan uslubni o'rganish (tez umumiy hisobot) |
+| `frames.py` | referensni **kadrma-kadr** tahlil: har kadr uchun kesim/dissolve/punch, zoom, yuz o'lchami, rang, ekrandagi matn, ovoz -> `frames.csv`, `shots.json`, `timeline.png`, `sheet_*.png` (har 0.2 s), `cuts_*.png` |
+| `matte.py` | MediaPipe bilan odam niqobi - `"layer": "behind"` bloklar uchun (render o'zi chaqiradi) |
 
 ## Ish tartibi
 
@@ -122,6 +124,13 @@ Barcha vaqtlar **tayyor videodagi** soniyalar - faqat `timeline.txt` ga qarab qo
 - `StepCard` - split-screen qadam kartochkasi (yuqori qism qora panel): `step`, `title`, `icon` yoki `items` (ro'yxat),
   `caption`, `panel` (balandlik ulushi, 0.5). Panel yuzni yopmasligi uchun gapiruvchi kadrning pastki yarmida bo'lsin
   (zoom/`y` bilan) yoki `panel` ni kichraytir.
+- **Hikoya (Azizon) to'plami** - batafsil `uslub-azizon` skillida:
+  `Broll` (rasm/video B-roll: `src`, `zoom` [1.0, 1.08], `bw`, `fade_in`/`fade_out`), `WallCard` (krem devor sahnasi:
+  `lines`, `image` frame/object, `mark` cross/circle, `pill`, `zoom_into`), `LabelBox` (sariq yorliq, harfma-harf),
+  `BigWord` (katta so'z; `"layer": "behind"` - odam orqasida), `StorySubs` (subtitr uslubi `hikoya` o'zi chaqiradi).
+  props ichidagi loyiha fayl yo'llari (`input/broll/x.jpg`) Remotion'ga avtomatik ko'chiriladi.
+- Blok darajasida `"layer": "behind"` - blok fon ustiga, odam esa niqob bilan blok ustiga qo'yiladi (matn odam orqasida).
+  Storyboard eskizida bu oddiy ustki qatlam bo'lib ko'rinadi, haqiqiy effekt faqat renderda.
 Yangi g'oya HyperFrames'ga sig'masa - `remotion/` ga yangi `.jsx` komponent yoz (uzunlik/fps/o'lcham props'dan keladi,
 `Root.jsx` dagi `meta` orqali), `Root.jsx` da ro'yxatga ol va `remotion_layer.py --still` bilan kadrini tekshir.
 Remotion litsenziyasi: shaxs va 3 kishigacha jamoa uchun bepul, kattaroq kompaniyaga pullik litsenziya kerak.
@@ -143,7 +152,7 @@ Papka bo'sh bo'lsa - musiqasiz qoldir va foydalanuvchiga ayt (mualliflik huquqi:
 Avatar videodan: `& $py montaj/reframe.py --avatar input/VIDEO.mp4 <soniya> work/VIDEO/avatar.png`
 (yuz aniq ko'ringan, jilmaygan lahzani tanla). Profil `name`/`handle` ni foydalanuvchidan so'ra - o'ylab topma.
 
-**Rang** (`grade`): clean, punchy, warm, soft-warm, cool, cinematic, moody, bw yoki `{"preset": "warm", "saturation": 1.2,
+**Rang** (`grade`): clean, punchy, warm, soft-warm, cool, cinematic, moody, bw, story-warm (iliq kino, hikoya) yoki `{"preset": "warm", "saturation": 1.2,
 "contrast": 1.05, "vignette": true}`.
 
 ### 7. Storyboard va tasdiq (MAJBURIY)
@@ -184,7 +193,7 @@ tuzatishlar bormi deb so'ra.
 | subtitr kattaroq / kichikroq | `subtitles.size` +12 / -12 |
 | subtitr yuqoriroq / pastroq | `subtitles.position` -0.06 / +0.06 |
 | boshqa rang | `subtitles.highlight` / `theme.accent`: "#RRGGBB" |
-| boshqa uslub | `passport.py --apply <boshqa>` yoki `subtitles.style` (pro, pro-green, bebas, clean-box, pop, karaoke, minimal, bold-red) |
+| boshqa uslub | `passport.py --apply <boshqa>` yoki `subtitles.style` (pro, pro-green, bebas, clean-box, pop, karaoke, minimal, bold-red, hikoya) |
 | animatsiya ko'p / kam | `animations` dan olib tashla / qo'sh |
 | effektlar arzon ko'rinyapti | `ekspert-premium` pasporti, emoji va stikerlarni olib tashla |
 | tezroq / dinamikroq | `hormozi` yoki `kulgili` pasporti (max_shot_s kichikroq), urg'u so'zlarga `move` punch |
@@ -217,13 +226,27 @@ Foydalanuvchi yoqtirgan blogger/akkaunt yoki video bersa:
 3. `work/reference/<nom>/report.json` (kadr uzunligi, kesimlar/10 s, ovoz) va `sheet_*.png`, `cuts_*.png`
    rasmlarini Read bilan ko'r: subtitr shrifti/rangi/joyi/so'z soni, zoom, matn-animatsiyalar, emoji, B-roll,
    rang tusi, musiqa bormi.
+   **Chuqur (kadrma-kadr) tahlil** - foydalanuvchi "kadrma-kadr", "to'liq o'rgan", "skill qil" desa yoki uslub
+   murakkab bo'lsa: har video uchun `& $py montaj/frames.py input/reference/X.mp4 --name x`. Avval
+   `timeline.png` (kesimlar: qora - cut, ko'k - dissolve, yashil - punch; yuz, rang, ovoz, matn bo'laklari), so'ng
+   **barcha** `sheet_*.png` larni ketma-ket Read bilan ko'r va sahnalar ro'yxatini yoz: vaqt, nima ko'rinadi
+   (A-roll/B-roll/grafika), matn qanday chiqadi, o'tish turi. Musiqa: pauzalarda ovoz -60 dB dan past bo'lsa -
+   musiqasiz. Ovozni `transcribe.py` bilan matnga aylantirib, ekrandagi matn bilan solishtir.
 4. `styles/passports/<nom>.json` ga yangi pasport yoz (`styles/passports.json` dagi tuzilma bilan bir xil):
    `pacing.max_shot_s` ~ report'dagi `avg_shot_s` x 1.3. Kerak bo'lsa `styles/subtitles.json` ga yangi
    subtitr uslubi qo'sh. So'ng `passport.py --apply <nom>` bilan ishlat.
+5. Foydalanuvchi uslubni **skillga aylantirishni** so'rasa: tizimda yo'q vizual elementlarni `remotion/` ga
+   kompozitsiya qilib qo'sh (`--still` bilan referens kadri yonida solishtir), `.claude/skills/uslub-<nom>/SKILL.md`
+   yoz (namuna: `uslub-azizon`): o'lchangan raqamlar, sahna formulasi, har element uchun tayyor `edit.json` bloki,
+   tekshiruv ro'yxati. So'ng qisqa sinov-montaj qilib, natijani `frames.py` bilan referensga solishtir.
+
+Tayyor uslub skillari: **`uslub-azizon`** (brend-hikoya: intervyu + AI-tasvirlar, devor sahnalari, serif subtitr),
+**`uslub-qadam-gaid`** (qadamma-qadam gaid: split-screen, tepada sxema yig'iladi).
 Bu faqat uslubni o'rganish uchun - begona videoning o'zini montajda ishlatma.
 
 ## Cheklovlar (foydalanuvchiga halol ayt)
-- Stok B-roll avtomatik yuklanmaydi; foydalanuvchi B-roll fayl bersa, uni `html` blokida `<video>` bilan qo'yish mumkin.
+- Stok B-roll avtomatik yuklanmaydi; foydalanuvchi bergan rasm/videoni `Broll` (Remotion) bilan qo'y. AI-tasvirni
+  generatsiya qiluvchi ulangan vosita bo'lsa (Figma/Firefly) - foydalanuvchi roziligi bilan, aks holda promptlar ro'yxatini ber.
 - Musiqa avtomatik yuklanmaydi (mualliflik huquqi) - `assets/music/` ga foydalanuvchi qo'yadi.
 - Yuzni aniqlash old tomondan (frontal) yuzda ishonchli; profil yoki uzoq plan bo'lsa x/y ni qo'lda tekshir.
 - Transkripsiya aniqligi ovoz sifatiga va shevaga bog'liq - 3-qadam majburiy.

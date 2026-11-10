@@ -47,6 +47,22 @@
     "outline_color": "#000000", "outline": 16, "shadow": 0, "box": true,
     "uppercase": false, "max_words": 5, "position": 0.78, "pop": false
   },
+  "hikoya": {
+    "description": "Azizon (brend-hikoya) uslubi: ingichka serif kursiv (Instrument Serif), so'zlar gapirilganda birma-bir yumshoq chiqadi, kalit so'z tik va kattaroq, tanlangan so'zlar tagiga sariq chiziq. Remotion StorySubs bilan chiziladi",
+    "engine": "remotion", "comp": "StorySubs",
+    "font": "Instrument Serif", "size": 64, "color": "#FFFFFF", "highlight": null,
+    "outline_color": "#000000", "outline": 0, "shadow": 2, "box": false,
+    "uppercase": false, "max_words": 6, "position": 0.70, "pop": false,
+    "emphasis": "auto", "underline": [], "emph_scale": 1.3
+  },
+  "gaid": {
+    "description": "Qadamma-qadam gaid: 1-3 so'zli ibora, oq qalin sans (Montserrat), konturisiz yumshoq soya, ko'krak ustida; GuidePanel vaqtida panel pastiga ko'tariladi. Remotion StorySubs bilan",
+    "engine": "remotion", "comp": "StorySubs",
+    "font": "Montserrat", "size": 46, "color": "#FFFFFF", "highlight": null,
+    "outline_color": "#000000", "outline": 0, "shadow": 2, "box": false,
+    "uppercase": false, "max_words": 3, "position": 0.56, "pop": false,
+    "emphasis": [], "underline": [], "emph_scale": 1.0, "italic": false, "weight": 700, "fade_out": 0.08
+  },
   "_title": {
     "description": "Video boshidagi sarlavha (hook) matni uchun",
     "font": "Arial Black", "size": 92, "color": "#FFFFFF", "highlight": "#FFE600",

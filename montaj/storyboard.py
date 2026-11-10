@@ -13,7 +13,7 @@ import re
 import shutil
 from pathlib import Path
 
-from common import fmt_time, resolve, run_ffmpeg
+from common import ROOT, fmt_time, load_json, resolve, run_ffmpeg
 
 import render
 
@@ -73,9 +73,12 @@ def build(edit_path, with_anim=True):
             print("Ogohlantirish: animatsiya eskizlari olinmadi - eskizlar animatsiyasiz.")
     # Remotion klip(lar)i: yakuniy render ham shu keshdan foydalanadi
     rem = []
-    if with_anim and any(a.get("type") == "remotion" for a in anims):
+    sub_cfg = edit.get("subtitles") or {}
+    st = {**load_json(ROOT / "styles" / "subtitles.json").get(sub_cfg.get("style", ""), {}), **sub_cfg} if sub_cfg else {}
+    story = [render.story_subs_block(words, st, edit, total)] if st.get("engine") == "remotion" else []
+    if with_anim and (story or any(a.get("type") == "remotion" for a in anims)):
         import remotion_layer
-        rem = remotion_layer.build(edit_path)
+        rem = remotion_layer.build(edit_path, extra=story)   # "behind" bloklar eskizda oddiy ustki qatlam
 
     grade = render.grade_filter(edit.get("grade"))
     fade = edit.get("fade") or {}
